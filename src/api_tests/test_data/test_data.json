@@ -1,0 +1,30 @@
+[
+    {
+      "sku": "berliner",
+      "description": "Jelly donut",
+      "price": "2.99",
+      "createdAt": "2025-08-17T14:54:36.382Z",
+      "updatedAt": "2025-08-17T14:54:36.382Z"
+    },
+    {
+      "sku": "glazed",
+      "description": "Glazed donut",
+      "price": "1.99",
+      "createdAt": "2025-08-17T14:54:36.382Z",
+      "updatedAt": "2025-08-17T14:54:36.382Z"
+    },
+    {
+      "sku": "chocolate",
+      "description": "Chocolate frosted donut",
+      "price": "2.49",
+      "createdAt": "2025-08-17T14:54:36.382Z",
+      "updatedAt": "2025-08-17T14:54:36.382Z"
+    },
+    {
+      "sku": "boston-cream",
+      "description": "Boston cream donut",
+      "price": "3.49",
+      "createdAt": "2025-08-17T14:54:36.382Z",
+      "updatedAt": "2025-08-17T14:54:36.382Z"
+    }
+  ]
