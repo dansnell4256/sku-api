@@ -15,20 +15,20 @@ describe('SKU API - GET Tests', () => {
 
   describe('GET /api/skus', () => {
     
-    it('should return all SKUs with status 200', async () => {
+    test('should return all SKUs with status 200', async () => {
       const response = await getRequest();
       
       expect(response.status).toBe(200);
     });
 
-    it('should return an array of SKUs', async () => {
+    test('should return an array of SKUs', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       
       expect(Array.isArray(skus)).toBe(true);
     });
 
-    it('should return the correct number of SKUs from test data', async () => {
+    test('should return the correct number of SKUs from test data', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       const expectedCount = await getExpectedSkuCount();
@@ -36,7 +36,7 @@ describe('SKU API - GET Tests', () => {
       expect(skus).toHaveLength(expectedCount);
     });
 
-    it('should return SKUs with all required fields', async () => {
+    test('should return SKUs with all required fields', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       
@@ -50,7 +50,7 @@ describe('SKU API - GET Tests', () => {
       });
     });
 
-    it('should return the expected test SKU codes', async () => {
+    test('should return the expected test SKU codes', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       const expectedSkuCodes = await getExpectedSkuCodes();
@@ -60,7 +60,7 @@ describe('SKU API - GET Tests', () => {
       expect(actualSkuCodes).toHaveLength(expectedSkuCodes.length);
     });
 
-    it('should return SKUs with correct data types', async () => {
+    test('should return SKUs with correct data types', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       
