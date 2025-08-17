@@ -15,7 +15,7 @@ describe('SKU API - DELETE Tests', () => {
 
   describe('DELETE /api/skus/{sku_code}', () => {
     
-    it.only('should delete an existing SKU and return status 204', async () => {
+    test('should delete an existing SKU and return status 204', async () => {
       // Verify the SKU exists first
       const getResponse = await getRequest('berliner');
       expect(getResponse.status).toBe(200);
@@ -29,7 +29,7 @@ describe('SKU API - DELETE Tests', () => {
       expect(responseText).toBe('');
     });
 
-    it('should remove the SKU from the collection after deletion', async () => {
+    test('should remove the SKU from the collection after deletion', async () => {
       // Get initial count
       const initialResponse = await getRequest();
       const initialSkus = await parseJsonResponse(initialResponse);
@@ -50,7 +50,7 @@ describe('SKU API - DELETE Tests', () => {
       expect(afterSkus.some((sku: any) => sku.sku === 'glazed')).toBe(false);
     });
 
-    it('should return 404 when trying to delete a non-existent SKU', async () => {
+    test('should return 404 when trying to delete a non-existent SKU', async () => {
       const deleteResponse = await deleteRequest('non-existent-sku');
       
       expect(deleteResponse.status).toBe(404);
@@ -61,7 +61,7 @@ describe('SKU API - DELETE Tests', () => {
       expect(errorResponse.error).toBe('SKU not found');
     });
 
-    it('should not affect other SKUs when deleting a non-existent SKU', async () => {
+    test('should not affect other SKUs when deleting a non-existent SKU', async () => {
       // Get initial count
       const initialResponse = await getRequest();
       const initialSkus = await parseJsonResponse(initialResponse);
@@ -81,7 +81,7 @@ describe('SKU API - DELETE Tests', () => {
       expect(afterSkuCodes).toEqual(expect.arrayContaining(expectedSkuCodes));
     });
 
-    it('should handle deletion of SKU with special characters in code', async () => {
+    test('should handle deletion of SKU with special characters in code', async () => {
       // Test with the 'boston-cream' SKU which has a hyphen
       const deleteResponse = await deleteRequest('boston-cream');
       
@@ -92,7 +92,7 @@ describe('SKU API - DELETE Tests', () => {
       expect(getResponse.status).toBe(404);
     });
 
-    it('should return proper error for malformed SKU codes', async () => {
+    test('should return proper error for malformed SKU codes', async () => {
       // Test with empty string - should be handled gracefully
       const deleteResponse = await deleteRequest('');
       
