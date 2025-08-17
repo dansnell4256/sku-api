@@ -15,20 +15,20 @@ describe('SKU API - GET Tests', () => {
 
   describe('GET /api/skus', () => {
     
-    test('should return all SKUs with status 200', async () => {
+    it('should return all SKUs with status 200', async () => {
       const response = await getRequest();
       
       expect(response.status).toBe(200);
     });
 
-    test('should return an array of SKUs', async () => {
+    it('should return an array of SKUs', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       
       expect(Array.isArray(skus)).toBe(true);
     });
 
-    test('should return the correct number of SKUs from test data', async () => {
+    it('should return the correct number of SKUs from test data', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       const expectedCount = await getExpectedSkuCount();
@@ -36,7 +36,7 @@ describe('SKU API - GET Tests', () => {
       expect(skus).toHaveLength(expectedCount);
     });
 
-    test('should return SKUs with all required fields', async () => {
+    it('should return SKUs with all required fields', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       
@@ -50,7 +50,7 @@ describe('SKU API - GET Tests', () => {
       });
     });
 
-    test('should return the expected test SKU codes', async () => {
+    it('should return the expected test SKU codes', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       const expectedSkuCodes = await getExpectedSkuCodes();
@@ -60,7 +60,7 @@ describe('SKU API - GET Tests', () => {
       expect(actualSkuCodes).toHaveLength(expectedSkuCodes.length);
     });
 
-    test('should return SKUs with correct data types', async () => {
+    it('should return SKUs with correct data types', async () => {
       const response = await getRequest();
       const skus = await parseJsonResponse(response);
       
@@ -75,6 +75,24 @@ describe('SKU API - GET Tests', () => {
         expect(new Date(sku.createdAt)).toBeInstanceOf(Date);
         expect(new Date(sku.updatedAt)).toBeInstanceOf(Date);
       });
+    });
+
+  });
+
+  describe('GET /api/skus - Empty Data Scenarios', () => {
+    
+    test('should return empty array when no SKUs exist', async () => {
+      // Skip the normal setup and create empty data instead
+      await cleanupTestData(); // Remove any existing data
+      
+      const response = await getRequest();
+      
+      expect(response.status).toBe(200);
+      
+      const skus = await parseJsonResponse(response);
+      expect(Array.isArray(skus)).toBe(true);
+      expect(skus).toHaveLength(0);
+      expect(skus).toEqual([]);
     });
 
   });
