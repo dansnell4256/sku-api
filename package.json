@@ -31,6 +31,7 @@
     "preset": "ts-jest",
     "testEnvironment": "node",
     "testMatch": ["**/api_tests/**/*.test.ts"],
-    "testTimeout": 10000
+    "testTimeout": 10000,
+    "maxWorkers": 1
   }
 }

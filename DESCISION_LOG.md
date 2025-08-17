@@ -7,6 +7,7 @@ Project Notes
 5. In the initial implimentation UUIDs were selected for ease of uniqueness. (REMOVED)
 6. Potential change - in the design signiture the price was defined as a string.  It may be a better practice instead to store this as a number type.
 7. removed id and went with sku as unique for now.  In a production platform with a backing db we may want to look at some level of integer id for performance.
+8. selected Jest as the test execution framework.  It reads well, the performance is solid for what we are doing along with a well supported echosystem.
 
 Test Design
 1. The test will have a precreated json file that contains data.  This data file will be reset for each test.  This will establish a known baseline regardless of the order that the tests are executed in.
@@ -21,5 +22,6 @@ Test Design
         POST - invalid payload submission
         DELETE - invlid ID
 
+4. Max worker threads set to 1 for Jest execution to avoid resource collisions around the data files.  This resulted in a 1 second time increase in execution time, but avoids race conditions on the data file.
 
 

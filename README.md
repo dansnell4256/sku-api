@@ -28,6 +28,13 @@ For development (with auto-reload):
 ```bash
 npm run dev
 ```
+## API Test Execution
+1. Start the service using one of the options above
+2. Execute the tests:
+```bash
+npm run api-tests
+```
+
 
 ## API Endpoints
 
