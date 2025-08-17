@@ -45,11 +45,6 @@ export class FileStorage {
     return await this.readData();
   }
 
-  async findById(id: string): Promise<SKU | null> {
-    const skus = await this.readData();
-    return skus.find(sku => sku.id === id) || null;
-  }
-
   async findBySku(skuCode: string): Promise<SKU | null> {
     const skus = await this.readData();
     return skus.find(sku => sku.sku === skuCode) || null;
@@ -62,9 +57,9 @@ export class FileStorage {
     return sku;
   }
 
-  async update(id: string, updatedSku: SKU): Promise<SKU | null> {
+  async update(skuCode: string, updatedSku: SKU): Promise<SKU | null> {
     const skus = await this.readData();
-    const index = skus.findIndex(sku => sku.id === id);
+    const index = skus.findIndex(sku => sku.sku === skuCode);
     
     if (index === -1) {
       return null;
@@ -75,9 +70,9 @@ export class FileStorage {
     return updatedSku;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(skuCode: string): Promise<boolean> {
     const skus = await this.readData();
-    const index = skus.findIndex(sku => sku.id === id);
+    const index = skus.findIndex(sku => sku.sku === skuCode);
     
     if (index === -1) {
       return false;

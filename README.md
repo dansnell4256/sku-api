@@ -45,11 +45,11 @@ Content-Type: application/json
 
 ### Update SKU
 ```
-POST http://localhost:3000/api/skus?id={sku-id}
+POST http://localhost:3000/api/skus?skuCode={sku-code}
 Content-Type: application/json
 
 {
-    "sku": "berliner",
+    "sku": "berliner-updated",
     "description": "Updated Jelly donut",
     "price": "3.49"
 }
@@ -60,14 +60,14 @@ Content-Type: application/json
 GET http://localhost:3000/api/skus
 ```
 
-### Get SKU by ID
+### Get SKU by Code
 ```
-GET http://localhost:3000/api/skus/{id}
+GET http://localhost:3000/api/skus/{sku-code}
 ```
 
 ### Delete SKU
 ```
-DELETE http://localhost:3000/api/skus/{id}
+DELETE http://localhost:3000/api/skus/{sku-code}
 ```
 
 ## Data Storage
@@ -90,17 +90,17 @@ curl http://localhost:3000/api/skus
 
 3. Get specific SKU:
 ```bash
-curl http://localhost:3000/api/skus/{id}
+curl http://localhost:3000/api/skus/berliner
 ```
 
 4. Update SKU:
 ```bash
-curl -X POST "http://localhost:3000/api/skus?id={sku-id}" \
+curl -X POST "http://localhost:3000/api/skus?skuCode=berliner" \
   -H "Content-Type: application/json" \
-  -d '{"sku":"berliner","description":"Updated Jelly donut","price":"3.49"}'
+  -d '{"sku":"berliner-updated","description":"Updated Jelly donut","price":"3.49"}'
 ```
 
 5. Delete SKU:
 ```bash
-curl -X DELETE http://localhost:3000/api/skus/{id}
+curl -X DELETE http://localhost:3000/api/skus/berliner
 ```

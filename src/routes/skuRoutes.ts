@@ -16,17 +16,17 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
-// GET /api/skus/{id} - Get SKU by ID
-router.get('/:id', async (req: Request, res: Response) => {
+// GET /api/skus/{sku_code} - Get SKU by SKU code
+router.get('/:sku_code', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const sku = await skuService.getSKUById(id);
+    const { sku_code } = req.params;
+    const skuData = await skuService.getSKUByCode(sku_code);
     
-    if (!sku) {
+    if (!skuData) {
       return res.status(404).json({ error: 'SKU not found' });
     }
     
-    res.json(sku);
+    res.json(skuData);
   } catch (error) {
     console.error('Error fetching SKU:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -45,12 +45,12 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
-    // Check if this is an update (if ID is provided in query or if SKU already exists)
-    const { id } = req.query;
+    // Check if this is an update (if SKU code is provided in query)
+    const { skuCode } = req.query;
     
-    if (id && typeof id === 'string') {
+    if (skuCode && typeof skuCode === 'string') {
       // Update operation
-      const updatedSKU = await skuService.updateSKU(id, { sku, description, price });
+      const updatedSKU = await skuService.updateSKU(skuCode, { sku, description, price });
       if (!updatedSKU) {
         return res.status(404).json({ error: 'SKU not found for update' });
       }
@@ -70,11 +70,11 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-// DELETE /api/skus/{id} - Delete SKU by ID
-router.delete('/:id', async (req: Request, res: Response) => {
+// DELETE /api/skus/{sku_code} - Delete SKU by SKU code
+router.delete('/:sku_code', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const deleted = await skuService.deleteSKU(id);
+    const { sku_code } = req.params;
+    const deleted = await skuService.deleteSKU(sku_code);
     
     if (!deleted) {
       return res.status(404).json({ error: 'SKU not found' });

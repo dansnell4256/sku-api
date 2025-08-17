@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { SKU, CreateSKURequest, UpdateSKURequest } from '../types/sku';
 import { FileStorage } from '../storage/fileStorage';
 
@@ -13,8 +12,8 @@ export class SKUService {
     return await this.storage.findAll();
   }
 
-  async getSKUById(id: string): Promise<SKU | null> {
-    return await this.storage.findById(id);
+  async getSKUByCode(skuCode: string): Promise<SKU | null> {
+    return await this.storage.findBySku(skuCode);
   }
 
   async createSKU(data: CreateSKURequest): Promise<SKU> {
@@ -26,7 +25,6 @@ export class SKUService {
 
     const now = new Date();
     const newSKU: SKU = {
-      id: uuidv4(),
       sku: data.sku,
       description: data.description,
       price: data.price,
@@ -37,30 +35,38 @@ export class SKUService {
     return await this.storage.create(newSKU);
   }
 
-  async updateSKU(id: string, data: UpdateSKURequest): Promise<SKU | null> {
-    const existingSKU = await this.storage.findById(id);
+  async updateSKU(skuCode: string, data: UpdateSKURequest): Promise<SKU | null> {
+    const existingSKU = await this.storage.findBySku(skuCode);
     if (!existingSKU) {
       return null;
     }
 
     // Check if we're trying to update to a SKU code that already exists (and it's not the current one)
-    const skuWithSameCode = await this.storage.findBySku(data.sku);
-    if (skuWithSameCode && skuWithSameCode.id !== id) {
-      throw new Error(`SKU with code '${data.sku}' already exists`);
+    if (data.sku !== skuCode) {
+      const skuWithSameCode = await this.storage.findBySku(data.sku);
+      if (skuWithSameCode) {
+        throw new Error(`SKU with code '${data.sku}' already exists`);
+      }
     }
 
     const updatedSKU: SKU = {
-      ...existingSKU,
       sku: data.sku,
       description: data.description,
       price: data.price,
+      createdAt: existingSKU.createdAt,
       updatedAt: new Date()
     };
 
-    return await this.storage.update(id, updatedSKU);
+    // If SKU code is changing, we need to delete the old one and create the new one
+    if (data.sku !== skuCode) {
+      await this.storage.delete(skuCode);
+      return await this.storage.create(updatedSKU);
+    } else {
+      return await this.storage.update(skuCode, updatedSKU);
+    }
   }
 
-  async deleteSKU(id: string): Promise<boolean> {
-    return await this.storage.delete(id);
+  async deleteSKU(skuCode: string): Promise<boolean> {
+    return await this.storage.delete(skuCode);
   }
 }
